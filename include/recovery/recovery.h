@@ -51,6 +51,12 @@ extern bool orioledb_recovery_stops_before_hook(XLogReaderState *record,
 												TransactionId *recordXid,
 												TimestampTz *recordXtime);
 
+/* PostgreSQL extension hook for recovery stops before */
+typedef bool (*RecoveryStopsBeforeHookType)(XLogReaderState *record,
+											TransactionId *recordXid,
+											TimestampTz *recordXtime);
+extern RecoveryStopsBeforeHookType RecoveryStopsBeforeHook;
+
 extern int	recovery_queue_size_guc;
 extern int	recovery_pool_size_guc;
 extern int	recovery_idx_pool_size_guc;
