@@ -6,7 +6,11 @@ export
 MODULE_big = orioledb
 EXTENSION = orioledb
 PGFILEDESC = "orioledb - orioledb transactional storage engine via TableAm"
-SHLIB_LINK += -lzstd -lcurl -lssl -lcrypto
+OPENSSL_PATH := $(shell if brew list --versions openssl@3 >/dev/null 2>&1; then brew --prefix openssl@3; else brew --prefix openssl; fi)
+ZSTD_PATH := $(shell if brew list --versions zstd >/dev/null 2>&1; then brew --prefix zstd; else brew --prefix zstd; fi)
+PG_CPPFLAGS += -I$(OPENSSL_PATH)/include
+PG_CPPFLAGS += -I$(ZSTD_PATH)/include
+SHLIB_LINK += -L$(OPENSSL_PATH)/lib -L$(ZSTD_PATH)/lib -lssl -lcrypto -lzstd -lcurl
 
 DATA_built = $(patsubst %_prod.sql,%.sql,$(wildcard sql/*_prod.sql))
 DATA = $(filter-out $(wildcard sql/*_*.sql) $(DATA_built), $(wildcard sql/*sql))
