@@ -138,6 +138,7 @@ REGRESSCHECKS = btree_sys_check \
 				temp \
 				toast \
 				trigger \
+				truncate \
 				types \
 				rewind
 ISOLATIONCHECKS = bitmap_hist_scan \
